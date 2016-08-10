@@ -55,7 +55,7 @@ comp_data <- read.csv('comp_prices.csv', header = TRUE, sep = ",")
 select_data <- sales_data[, c('QTY_ORDER','REVENUE',"PROD_ID")]
 
 # Model for PROD_ID
-prod_id = "P9"
+prod_id = "P1"
 plot_model(select_product(prod_id,sales_data),prod_id)
 
 # Prices
@@ -67,3 +67,10 @@ print(results)
 ###########################################################
 # Correlation between QTY and REVENUE
 cor(select_data$QTY_ORDER,select_data$REVENUE)
+
+########### Validation model ####################
+# K-fold cross-validation
+library(DAAG)
+p_data <- select_product(prod_id,sales_data)
+fit <- create_model(QTY_ORDER~REVENUE , p_data)
+cv.lm(p_data, fit, m=10)
